@@ -28,7 +28,7 @@ state_transitions = {
     }
 }
 
-def change_state(current_state, trigger):
+def change_state(current_state: StudentStatusState, trigger: TriggerInputState):
     if current_state in state_transitions and trigger in state_transitions[current_state]:
         return state_transitions[current_state][trigger]
     return "State atau transisi tidak valid"
