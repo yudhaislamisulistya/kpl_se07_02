@@ -1,0 +1,28 @@
+# cwe89_vulnerable.py
+
+import sqlite3
+
+# Setup awal database (sekali saja)
+conn = sqlite3.connect("users.db")
+cursor = conn.cursor()
+cursor.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
+cursor.execute("INSERT INTO users VALUES ('admin', 'admin123')")
+conn.commit()
+
+# Ambil input dari user
+username = input("Masukkan username: ")
+password = input("Masukkan password: ")
+
+# ❌ Query rentan SQL Injection
+query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+print(f"[DEBUG] Menjalankan query: {query}")
+cursor.execute(query)
+
+# Cek apakah login berhasil
+result = cursor.fetchone()
+if result:
+    print("Login berhasil sebagai:", result[0])
+else:
+    print("Login gagal.")
+
+conn.close()
